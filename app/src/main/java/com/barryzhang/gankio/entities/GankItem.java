@@ -1,11 +1,16 @@
 package com.barryzhang.gankio.entities;
 
+import com.orm.SugarRecord;
+import com.orm.dsl.Table;
+
 import java.io.Serializable;
 
 /**
  * Created by Barry on 16/4/20.
  */
+@Table
 public class GankItem implements Serializable{
+    private Long id;
     private String _id;
     private String createdAt;
     private String desc;
@@ -16,11 +21,11 @@ public class GankItem implements Serializable{
     private boolean used;
     private String who;
 
-    public String getId() {
+    public String get_Id() {
         return _id;
     }
 
-    public void setId(String _id) {
+    public void set_Id(String _id) {
         this._id = _id;
     }
 

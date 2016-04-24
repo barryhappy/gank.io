@@ -6,9 +6,12 @@ import com.barryzhang.gankio.entities.BeautyData;
 import com.barryzhang.gankio.entities.DailyGankEntity;
 import com.barryzhang.gankio.entities.GankItem;
 import com.barryzhang.gankio.entities.HistoryEntity;
+import com.orm.SugarRecord;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -84,6 +87,19 @@ public class HttpMethods {
             subscriber.onError(new RuntimeException("Date format Exception!"));
             return;
         }
+        BeautyData data = SugarRecord.findById(BeautyData.class, 1);
+        Iterator<BeautyData> data2 = SugarRecord.findAll(BeautyData.class);
+        while (data2.hasNext()){
+            BeautyData next = data2.next();
+            if(next != null) {
+                next.toString();
+            }
+        }
+        GankItem iiii = SugarRecord.findById(GankItem.class, 1);
+        if(iiii != null) {
+            BeautyData beautyData = BeautyData.create(date, iiii);
+            SugarRecord.save(beautyData);
+        }
         service.getDailyGank(year,month,day)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -92,10 +108,16 @@ public class HttpMethods {
                     @Override
                     public List<Object> call(DailyGankEntity dailyGankEntity) {
                         List<Object> list = new ArrayList<Object>();
-                        list.add(date);
+                        //list.add(date);
                         //把"福利"放到最前面
                         for(GankItem item : dailyGankEntity.getResults().get("福利")) {
-                            list.add(BeautyData.create(item));
+                            BeautyData beautyData = BeautyData.create(date, item);
+//                            item.save();
+//                            beautyData.save();
+
+                            SugarRecord.save(item);
+//                            SugarRecord.save(beautyData);
+                            list.add(beautyData);
                         }
                         for(String key : dailyGankEntity.getCategory()){
                             if("福利".equals(key)){

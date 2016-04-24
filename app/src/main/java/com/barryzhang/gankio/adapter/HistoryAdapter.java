@@ -2,15 +2,14 @@ package com.barryzhang.gankio.adapter;
 
 import android.content.Context;
 import android.text.Html;
-import android.view.View;
 import android.widget.TextView;
 
 import com.barryzhang.gankio.R;
 import com.barryzhang.gankio.entities.BeautyData;
-import com.barryzhang.gankio.entities.GankItem;
 import com.barryzhang.gankio.ui.view.PinnedSectionListView;
 import com.barryzhang.gankio.utils.FrescoImageUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.github.mzule.easyadapter.MultiTypeAdapter;
 import com.github.mzule.easyadapter.TypePerEntityAdapter;
 import com.github.mzule.easyadapter.ViewType;
 
@@ -20,26 +19,31 @@ import butterknife.ButterKnife;
 /**
  * Created by Barry on 16/4/20.
  */
-public class DailyGankAdapter  extends TypePerEntityAdapter<Object>
+public class HistoryAdapter extends MultiTypeAdapter<String>
         implements PinnedSectionListView.PinnedSectionListAdapter  {
 
-    public DailyGankAdapter(Context context) {
+    public HistoryAdapter(Context context) {
         super(context);
     }
 
     @Override
-    public boolean isItemViewTypePinned(int viewType) {
-        return getRawViewType(TitleViewType.class) == viewType;
+    protected void registerViewTypes() {
+
+        registerViewType(HistoryTitleViewType.class);
+        registerViewType(HistoryItemViewType.class);
     }
 
     @Override
-    protected void mapEntityViewTypes() {
-        mapEntityViewType(String.class,TitleViewType.class);
-        mapEntityViewType(GankItem.class,GankItemViewType.class);
-        mapEntityViewType(BeautyData.class,BeautyViewType.class);
+    protected Class<? extends ViewType> getViewType(int position, String data) {
+        return data.length() > 7 ? HistoryItemViewType.class : HistoryTitleViewType.class;
     }
 
-    public static class TitleViewType extends ViewType<String>{
+    @Override
+    public boolean isItemViewTypePinned(int viewType) {
+        return getRawViewType(HistoryTitleViewType.class) == viewType;
+    }
+
+    public static class HistoryTitleViewType extends ViewType<String>{
 
         @Bind(R.id.textViewTitle)
         TextView textViewTitle;
@@ -55,7 +59,7 @@ public class DailyGankAdapter  extends TypePerEntityAdapter<Object>
         }
     }
 
-    public static class GankItemViewType extends ViewType<GankItem>{
+    public static class HistoryItemViewType extends ViewType<String>{
         @Bind(R.id.textViewDesc)
         TextView textViewDesc;
         @Override
@@ -65,10 +69,10 @@ public class DailyGankAdapter  extends TypePerEntityAdapter<Object>
         }
 
         @Override
-        public void onRender(int position, GankItem data) {
+        public void onRender(int position, String data) {
 
-            textViewDesc.setText(Html.fromHtml(data.getDesc()+
-                    "<font color='#222'>（"+data.getWho()+"）</font>"));
+            textViewDesc.setText(Html.fromHtml("<font color='#1a1a1a'>"+data+"</font>"));
+//            textViewDesc.setText(data);
         }
     }
 

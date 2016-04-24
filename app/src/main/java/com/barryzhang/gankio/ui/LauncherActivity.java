@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.barryzhang.gankio.R;
+import com.barryzhang.gankio.api.DataProvider;
 import com.barryzhang.gankio.api.HistoryService;
 import com.barryzhang.gankio.api.HttpMethods;
 import com.barryzhang.gankio.api.HttpService;
@@ -22,6 +23,11 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import com.barryzhang.gankio.utils.FrescoImageUtils;
+import com.orm.SugarRecord;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class LauncherActivity extends BaseActivity {
 
@@ -41,13 +47,20 @@ public class LauncherActivity extends BaseActivity {
 
     @Override
     protected void afterInject() {
-        FrescoImageUtils.loadImage(imageViewLauncher,
-                "http://m2.quanjing.com/2m/ibrm048/iblsab01238174.jpg");
+//        FrescoImageUtils.loadImage(imageViewLauncher,
+//                "http://m2.quanjing.com/2m/ibrm048/iblsab01238174.jpg");
     }
 
     @Override
     protected void loadData() {
-        loadThree();
+
+        HistoryEntity historyEntity = SugarRecord.findById(HistoryEntity.class,1);
+        if(historyEntity == null || historyEntity.getResults() == null){
+
+            loadThree();
+        }
+
+
     }
 
     private void loadOne() {
@@ -120,10 +133,9 @@ public class LauncherActivity extends BaseActivity {
             public void onNext(HistoryEntity historyEntity) {
                 if(!historyEntity.isError()) {
                     DatabaseMethods.saveHistory(historyEntity);
-
+                    DataProvider.save(historyEntity.getResults());
                     Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
-                    intent.putExtra("historyEntity", historyEntity);
-                    intent.putExtra("history", historyEntity.getResults());
+                    intent.putExtra("date", getLastedDate(historyEntity));
                     startActivity(intent);
                     finish();
                 }
@@ -136,4 +148,14 @@ public class LauncherActivity extends BaseActivity {
         return R.layout.activity_launcher;
     }
 
+
+
+    private String getLastedDate(HistoryEntity historyEntity) {
+        if (historyEntity != null && historyEntity.getResults().size() > 0) {
+            return historyEntity.getResults().get(0);
+        } else {
+            return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)
+                    .format(new Date());
+        }
+    }
 }

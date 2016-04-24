@@ -1,11 +1,11 @@
-package applaction;
+package com.barryzhang.gankio.appliction;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orm.SugarApp;
 
-public class MyApp extends Application {
+public class MyApp extends SugarApp {
 
 	private static Context _instance;
 

@@ -1,4 +1,4 @@
-package applaction;
+package com.barryzhang.gankio.appliction;
 
 
 import android.annotation.SuppressLint;

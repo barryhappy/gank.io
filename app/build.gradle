@@ -35,4 +35,5 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'com.pnikosis:materialish-progress:1.7'
     compile 'net.steamcrafted:materialiconlib:1.0.9'
+    compile 'com.github.satyan:sugar:1.4'
 }
