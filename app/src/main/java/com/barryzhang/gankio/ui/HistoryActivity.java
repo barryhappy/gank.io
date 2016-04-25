@@ -57,9 +57,4 @@ public class HistoryActivity extends BaseHomeActivity {
         }
         adapter.addAndNotify(list);
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

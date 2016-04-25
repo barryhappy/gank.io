@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.barryzhang.gankio.R;
+import com.barryzhang.gankio.utils.IntentUtil;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -77,32 +78,41 @@ public abstract class BaseHomeActivity extends BaseActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            Intent intent = new Intent(this, MainActivity.class);
-            //intent.putStringArrayListExtra("history",history);
-            startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_history) {
-            Intent intent = new Intent(this, HistoryActivity.class);
-            //intent.putStringArrayListExtra("history",history);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+    public boolean onNavigationItemSelected(final MenuItem item) {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+        drawer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                int id = item.getItemId();
+
+                if (id == R.id.nav_home) {
+                    IntentUtil.gotoMainActivity(BaseHomeActivity.this);
+                } else if (id == R.id.nav_gallery) {
+
+                } else if (id == R.id.nav_history) {
+                    IntentUtil.gotoHistoryActivity(BaseHomeActivity.this);
+
+                } else if (id == R.id.nav_manage) {
+
+                } else if (id == R.id.nav_share) {
+
+                } else if (id == R.id.nav_send) {
+
+                }
+
+            }
+        },500);
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
 }

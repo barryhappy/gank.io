@@ -122,9 +122,4 @@ public class MainActivity extends BaseHomeActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }
