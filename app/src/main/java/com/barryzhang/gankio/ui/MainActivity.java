@@ -52,6 +52,25 @@ public class MainActivity extends BaseHomeActivity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String newDate = intent.getStringExtra("date");
+        if(newDate != null && !date.equals(newDate)){
+            date = newDate;
+            reloadData();
+        }
+    }
+
+
+    private void reloadData(){
+        if(adapterMain != null) {
+            adapterMain.clearAndNotify();
+        }
+        setTitle(date);
+        loadData();
+    }
+
 
     @OnItemClick(R.id.listViewMain)
     void onMainListViewItemClick(int position) {

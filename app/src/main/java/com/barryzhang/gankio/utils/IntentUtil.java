@@ -11,21 +11,27 @@ import com.barryzhang.gankio.ui.MainActivity;
  */
 public class IntentUtil {
 
-    public static void gotoMainActivity(Activity activity ){
+    public static void gotoMainActivity(Activity activity ,Intent data){
         if(activity instanceof  MainActivity){
             return;
         }
         Intent intent = new Intent(activity, MainActivity.class);
+        if(data != null){
+            intent.putExtras(data);
+        }
         activity.startActivity(intent);
     }
 
 
 
-    public static void gotoHistoryActivity(Activity activity ){
+    public static void gotoHistoryActivity(Activity activity ,Intent data){
         if(activity instanceof HistoryActivity){
             return;
         }
         Intent intent = new Intent(activity, HistoryActivity.class);
+        if(data != null){
+            intent.putExtras(data);
+        }
         activity.startActivity(intent);
     }
 

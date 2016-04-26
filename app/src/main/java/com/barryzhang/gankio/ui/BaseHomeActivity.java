@@ -90,11 +90,11 @@ public abstract class BaseHomeActivity extends BaseActivity
                 int id = item.getItemId();
 
                 if (id == R.id.nav_home) {
-                    IntentUtil.gotoMainActivity(BaseHomeActivity.this);
+                    IntentUtil.gotoMainActivity(BaseHomeActivity.this,null);
                 } else if (id == R.id.nav_gallery) {
 
                 } else if (id == R.id.nav_history) {
-                    IntentUtil.gotoHistoryActivity(BaseHomeActivity.this);
+                    IntentUtil.gotoHistoryActivity(BaseHomeActivity.this,null);
 
                 } else if (id == R.id.nav_manage) {
 
