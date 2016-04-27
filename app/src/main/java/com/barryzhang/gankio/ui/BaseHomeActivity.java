@@ -16,9 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.barryzhang.gankio.R;
-import com.barryzhang.gankio.utils.D;
 import com.barryzhang.gankio.utils.IntentUtil;
-import com.jakewharton.rxbinding.view.RxView;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
