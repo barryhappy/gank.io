@@ -17,7 +17,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.barryzhang.gankio.R;
+import com.barryzhang.gankio.dao.DatabaseMethods;
+import com.barryzhang.gankio.entities.FavoriteEntity;
 import com.barryzhang.gankio.entities.GankItem;
+import com.barryzhang.gankio.utils.D;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -142,6 +145,12 @@ public class HtmlActivity extends BaseActivity {
             intent.setData(Uri.parse(gank.getUrl()));
             startActivity(intent);
             return true;
+        } else if(id == R.id.action_favorite) {
+           if(DatabaseMethods.saveFavorite(FavoriteEntity.newInstance(gank)) > 0){
+               D.toast("收藏成功");
+           }else{
+               D.toast("收藏失败");
+           }
         }
 
         return super.onOptionsItemSelected(item);

@@ -16,9 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.barryzhang.gankio.R;
+import com.barryzhang.gankio.dao.DatabaseMethods;
+import com.barryzhang.gankio.entities.FavoriteEntity;
 import com.barryzhang.gankio.utils.IntentUtil;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
+import java.util.List;
 
 import rx.functions.Action1;
 
@@ -93,10 +97,11 @@ public abstract class BaseHomeActivity extends BaseActivity
 
                 if (id == R.id.nav_home) {
                     IntentUtil.gotoMainActivity(BaseHomeActivity.this, null);
-                } else if (id == R.id.nav_gallery) {
-
                 } else if (id == R.id.nav_history) {
                     IntentUtil.gotoHistoryActivity(BaseHomeActivity.this, null);
+
+                } else if (id == R.id.nav_favorite){
+                    IntentUtil.gotoFavoriteActivity(BaseHomeActivity.this, null);
 
                 } else if (id == R.id.nav_manage) {
 

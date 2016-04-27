@@ -20,7 +20,7 @@
             android:value="gank_io.db"/>
         <meta-data
             android:name="VERSION"
-            android:value="2"/>
+            android:value="3"/>
         <meta-data
             android:name="QUERY_LOG"
             android:value="true"/>
@@ -51,8 +51,13 @@
         </activity>
         <activity
             android:name=".ui.HistoryActivity"
-            android:launchMode="singleInstance"
             android:label="@string/title_activity_history"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ui.FavoriteActivity"
+            android:label="@string/title_activity_favorite"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

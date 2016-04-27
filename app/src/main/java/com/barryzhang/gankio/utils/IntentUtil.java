@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.barryzhang.gankio.R;
+import com.barryzhang.gankio.ui.FavoriteActivity;
 import com.barryzhang.gankio.ui.HistoryActivity;
 import com.barryzhang.gankio.ui.MainActivity;
 
@@ -37,5 +38,20 @@ public class IntentUtil {
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
+
+
+
+    public static void gotoFavoriteActivity(Activity activity ,Intent data){
+        if(activity instanceof FavoriteActivity){
+            return;
+        }
+        Intent intent = new Intent(activity, FavoriteActivity.class);
+        if(data != null){
+            intent.putExtras(data);
+        }
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+    }
+
 
 }

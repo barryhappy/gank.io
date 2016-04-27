@@ -21,8 +21,16 @@ public class GankItem implements Serializable{
     private boolean used;
     private String who;
 
+    public void syncID(){
+        id = (long)Math.abs(hashCode());
+    }
+
     public String get_Id() {
         return _id;
+    }
+
+    public long getId(){
+        return hashCode();
     }
 
     public void set_Id(String _id) {
@@ -91,5 +99,28 @@ public class GankItem implements Serializable{
 
     public void setWho(String who) {
         this.who = who;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GankItem gankItem = (GankItem) o;
+
+        if (desc != null ? !desc.equals(gankItem.desc) : gankItem.desc != null) return false;
+        if (type != null ? !type.equals(gankItem.type) : gankItem.type != null) return false;
+        if (url != null ? !url.equals(gankItem.url) : gankItem.url != null) return false;
+        return who != null ? who.equals(gankItem.who) : gankItem.who == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = desc != null ? desc.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (who != null ? who.hashCode() : 0);
+        return result;
     }
 }

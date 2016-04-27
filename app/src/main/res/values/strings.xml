@@ -10,4 +10,5 @@
     <string name="title_activity_launcher">LauncherActivity</string>
     <string name="title_activity_html">HtmlActivity</string>
     <string name="title_activity_history">历史的车轮滚滚向前</string>
+    <string name="title_activity_favorite">我的收藏</string>
 </resources>

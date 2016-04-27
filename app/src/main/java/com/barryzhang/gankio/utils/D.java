@@ -37,7 +37,8 @@ public class D {
 		if (DEBUG)
 			Log.i(TAG, msg);
 	}
-	
+
+
 	public static void toastWhileDebug(Context context ,String content){
 		if (DEBUG){
 			Toast toast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
@@ -46,9 +47,21 @@ public class D {
 		}
 	}
 
+
+
 	public static void toastWhileDebug(String content){
 		toastWhileDebug(MyApp.getInstance(),content);
 	}
+
+
+
+
+	public static void toast(String content){
+		Toast toast = Toast.makeText(MyApp.getInstance(), content, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
+	}
+
 
 	/***
 	 * 打印长数据
