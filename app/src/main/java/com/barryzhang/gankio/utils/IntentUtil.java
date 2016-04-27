@@ -3,6 +3,7 @@ package com.barryzhang.gankio.utils;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.barryzhang.gankio.R;
 import com.barryzhang.gankio.ui.HistoryActivity;
 import com.barryzhang.gankio.ui.MainActivity;
 
@@ -20,6 +21,7 @@ public class IntentUtil {
             intent.putExtras(data);
         }
         activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
 
@@ -33,6 +35,7 @@ public class IntentUtil {
             intent.putExtras(data);
         }
         activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
 }

@@ -62,6 +62,11 @@ public class MainActivity extends BaseHomeActivity {
         }
     }
 
+    @Override
+    protected int getCurrentPageMenuIndex() {
+        return 0;
+    }
+
 
     private void reloadData(){
         if(adapterMain != null) {

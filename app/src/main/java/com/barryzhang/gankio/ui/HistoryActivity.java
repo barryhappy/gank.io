@@ -30,6 +30,11 @@ public class HistoryActivity extends BaseHomeActivity {
     }
 
     @Override
+    protected int getCurrentPageMenuIndex() {
+        return 1;
+    }
+
+    @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_history;
     }
