@@ -13,6 +13,7 @@ import com.barryzhang.gankio.adapter.DailyGankAdapter;
 import com.barryzhang.gankio.api.HttpMethods;
 import com.barryzhang.gankio.entities.GankItem;
 import com.barryzhang.gankio.utils.D;
+import com.barryzhang.gankio.utils.IntentUtil;
 
 import java.util.List;
 
@@ -80,10 +81,10 @@ public class MainActivity extends BaseHomeActivity {
     @OnItemClick(R.id.listViewMain)
     void onMainListViewItemClick(int position) {
         if (adapterMain.getData().get(position) instanceof GankItem) {
-            Intent intent = new Intent(this, HtmlActivity.class);
+            Intent intent = new Intent();
             GankItem gankItem = (GankItem) adapterMain.getData().get(position);
             intent.putExtra("gankItem", gankItem);
-            startActivity(intent);
+            IntentUtil.gotoGankDetailActivity(this,intent);
         }
     }
 

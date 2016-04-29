@@ -21,6 +21,7 @@ import com.barryzhang.gankio.dao.DatabaseMethods;
 import com.barryzhang.gankio.entities.FavoriteEntity;
 import com.barryzhang.gankio.entities.GankItem;
 import com.barryzhang.gankio.utils.D;
+import com.barryzhang.gankio.utils.IntentUtil;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -147,6 +148,7 @@ public class HtmlActivity extends BaseActivity {
             webView.goBack();
         }else {
             super.onBackPressed();
+            IntentUtil.exitLeftRight(this);
         }
     }
 

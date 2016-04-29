@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.barryzhang.gankio.R;
 import com.barryzhang.gankio.ui.FavoriteActivity;
 import com.barryzhang.gankio.ui.HistoryActivity;
+import com.barryzhang.gankio.ui.HtmlActivity;
 import com.barryzhang.gankio.ui.MainActivity;
 
 /**
@@ -53,5 +54,29 @@ public class IntentUtil {
         activity.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
+    public static void gotoGankDetailActivity(Activity activity, Intent data){
+        if(activity instanceof HtmlActivity){
+            return;
+        }
+        Intent intent = new Intent(activity,HtmlActivity.class);
+        if(data != null){
+            intent.putExtras(data);
+        }
+        activity.startActivity(intent);
+        enterLeftRight(activity);
+    }
+
+
+    public static void exitLeftRight(Activity activity){
+        activity.overridePendingTransition(
+                R.anim.fade_left_to_middle,
+                R.anim.fade_middle_to_right);
+    }
+
+    public static void enterLeftRight(Activity activity){
+        activity.overridePendingTransition(
+                R.anim.fade_right_to_middle,
+                R.anim.fade_middle_to_left);
+    }
 
 }
