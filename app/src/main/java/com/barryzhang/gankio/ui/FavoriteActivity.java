@@ -13,10 +13,13 @@ import com.barryzhang.gankio.R;
 import com.barryzhang.gankio.adapter.FavoriteAdapter;
 import com.barryzhang.gankio.dao.DatabaseMethods;
 import com.barryzhang.gankio.entities.FavoriteEntity;
+import com.barryzhang.gankio.entities.GankItem;
+import com.barryzhang.gankio.utils.IntentUtil;
 
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnItemClick;
 
 public class FavoriteActivity extends BaseHomeActivity {
 
@@ -56,6 +59,15 @@ public class FavoriteActivity extends BaseHomeActivity {
             return ;
         }
         adapter.addAndNotify(all);
+    }
+
+
+    @OnItemClick(R.id.listViewFavorite)
+    void onListViewItemClick(int position){
+        Intent intent = new Intent();
+        GankItem gankItem = all.get(position).getData();
+        intent.putExtra("gankItem", gankItem);
+        IntentUtil.gotoGankDetailActivity(this,intent);
     }
 
     @Override
