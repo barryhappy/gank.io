@@ -2,6 +2,7 @@ package com.barryzhang.gankio.dao;
 
 import com.barryzhang.gankio.entities.BeautyData;
 import com.barryzhang.gankio.entities.FavoriteEntity;
+import com.barryzhang.gankio.entities.GankItem;
 import com.barryzhang.gankio.entities.HistoryEntity;
 import com.barryzhang.gankio.utils.D;
 import com.orm.SugarRecord;
@@ -40,8 +41,11 @@ DatabaseMethods {
         return 0;
     }
 
-    public static boolean isFavorite(FavoriteEntity favoriteEntity){
-        return false;
+    public static boolean deleteFavorite(FavoriteEntity favoriteEntity) {
+        if(favoriteEntity == null){
+            return false;
+        }
+        return SugarRecord.delete(favoriteEntity);
     }
 
     public static List<FavoriteEntity>  findAllFavorite(){
@@ -51,5 +55,19 @@ DatabaseMethods {
             list.add(iterator.next());
         }
         return list;
+    }
+
+    public static boolean isFavorite(GankItem item){
+        if(item == null){
+            return false;
+        }
+        FavoriteEntity favoriteEntity = FavoriteEntity.newInstance(item);
+        long count = 0;
+        if (favoriteEntity != null) {
+            count = SugarRecord.count(
+                    FavoriteEntity.class,"id = ?",
+                    new String[]{String.valueOf(favoriteEntity.getId())});
+        }
+        return count > 0;
     }
 }

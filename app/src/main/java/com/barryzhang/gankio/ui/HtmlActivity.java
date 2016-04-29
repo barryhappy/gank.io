@@ -25,13 +25,19 @@ import com.barryzhang.gankio.utils.D;
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class HtmlActivity extends BaseActivity {
 
     @Bind(R.id.webView)
     WebView webView;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
 
     private GankItem gank;
+    boolean isFavorite = false;
+
+    Menu mOptionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +46,6 @@ public class HtmlActivity extends BaseActivity {
             // TODO 处理没有数据的情况
             return;
         }
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -67,7 +64,37 @@ public class HtmlActivity extends BaseActivity {
         initToolBar();
 
         initWebVIew();
+        
+        refreshFavoriteState();
+        
     }
+
+    private void refreshFavoriteState() {
+        isFavorite = DatabaseMethods.isFavorite(gank);
+        if(isFavorite){
+            fab.setImageDrawable(MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.STAR)
+                    .setColor(Color.WHITE)
+                    .setSizeDp(20)
+                    .build());
+        }else{
+            fab.setImageDrawable(MaterialDrawableBuilder.with(this)
+                    .setIcon(MaterialDrawableBuilder.IconValue.STAR_OUTLINE)
+                    .setColor(Color.WHITE)
+                    .setSizeDp(20)
+                    .build());
+        }
+        refreshMenu();
+
+    }
+
+    private void refreshMenu() {
+        if(mOptionsMenu != null){
+            mOptionsMenu.getItem(0).setVisible(!isFavorite);
+            mOptionsMenu.getItem(1).setVisible(isFavorite);
+        }
+    }
+
 
     private void initWebVIew() {
         webView.getSettings().setAppCacheMaxSize(1024*1024*32);
@@ -127,32 +154,43 @@ public class HtmlActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.html, menu);
+        mOptionsMenu = menu;
+        refreshMenu();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_open_in_browser) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(gank.getUrl()));
             startActivity(intent);
             return true;
-        } else if(id == R.id.action_favorite) {
-           if(DatabaseMethods.saveFavorite(FavoriteEntity.newInstance(gank)) > 0){
-               D.toast("收藏成功");
-           }else{
-               D.toast("收藏失败");
-           }
+        } else if(id == R.id.action_favorite || id == R.id.action_unFavorite) {
+           toggleFavorite();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @OnClick(R.id.fab)
+    public void toggleFavorite(){
+        if(isFavorite){
+            if(DatabaseMethods.deleteFavorite(FavoriteEntity.newInstance(gank))){
+                D.toast("√ 收藏已移除");
+            }else{
+                D.toast("× 取消收藏失败");
+            }
+        }else{
+            if(DatabaseMethods.saveFavorite(FavoriteEntity.newInstance(gank)) > 0){
+                D.toast("√ 已收藏");
+            }else{
+                D.toast("× 收藏失败");
+            }
+        }
+        refreshFavoriteState();
     }
 }
