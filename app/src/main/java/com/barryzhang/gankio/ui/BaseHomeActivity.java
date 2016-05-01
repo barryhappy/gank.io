@@ -107,8 +107,8 @@ public abstract class BaseHomeActivity extends BaseActivity
 
                 } else if (id == R.id.nav_share) {
 
-                } else if (id == R.id.nav_send) {
-
+                } else if (id == R.id.nav_about) {
+                    IntentUtil.gotoAboutActivity(BaseHomeActivity.this,null);
                 }
 
             }

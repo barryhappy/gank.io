@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.barryzhang.gankio.R;
+import com.barryzhang.gankio.ui.AboutActivity;
 import com.barryzhang.gankio.ui.FavoriteActivity;
 import com.barryzhang.gankio.ui.HistoryActivity;
 import com.barryzhang.gankio.ui.HtmlActivity;
@@ -64,6 +65,17 @@ public class IntentUtil {
         }
         activity.startActivity(intent);
         enterLeftRight(activity);
+    }
+
+    public static void gotoAboutActivity(Activity activity, Intent data){
+        if(activity instanceof AboutActivity){
+            return;
+        }
+        Intent intent = new Intent(activity,AboutActivity.class);
+        if(data != null){
+            intent.putExtras(data);
+        }
+        activity.startActivity(intent);
     }
 
 
