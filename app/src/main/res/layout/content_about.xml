@@ -9,10 +9,10 @@
     tools:context="com.barryzhang.gankio.ui.AboutActivity"
     tools:showIn="@layout/activity_about">
 
-<WebView
-    android:id="@+id/webViewAbout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <us.feras.mdv.MarkdownView
+        android:id="@+id/markDownView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</WebView>
+    </us.feras.mdv.MarkdownView>
 </android.support.v4.widget.NestedScrollView>

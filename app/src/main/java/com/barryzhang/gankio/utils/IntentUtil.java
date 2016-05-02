@@ -2,6 +2,7 @@ package com.barryzhang.gankio.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.barryzhang.gankio.R;
 import com.barryzhang.gankio.ui.AboutActivity;
@@ -76,6 +77,12 @@ public class IntentUtil {
             intent.putExtras(data);
         }
         activity.startActivity(intent);
+    }
+
+    public static void openUrlWithBrowser(Activity act,String url){
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        act.startActivity(intent);
     }
 
 

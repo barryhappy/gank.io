@@ -166,9 +166,7 @@ public class HtmlActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_open_in_browser) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(gank.getUrl()));
-            startActivity(intent);
+            IntentUtil.openUrlWithBrowser(this,gank.getUrl());
             return true;
         } else if(id == R.id.action_favorite || id == R.id.action_unFavorite) {
            toggleFavorite();
