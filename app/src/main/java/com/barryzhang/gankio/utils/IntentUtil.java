@@ -25,7 +25,7 @@ public class IntentUtil {
             intent.putExtras(data);
         }
         activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+        enterOutIn(activity);
     }
 
 
@@ -39,7 +39,7 @@ public class IntentUtil {
             intent.putExtras(data);
         }
         activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+        enterOutIn(activity);
     }
 
 
@@ -53,7 +53,7 @@ public class IntentUtil {
             intent.putExtras(data);
         }
         activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+        enterOutIn(activity);
     }
 
     public static void gotoGankDetailActivity(Activity activity, Intent data){
@@ -77,6 +77,7 @@ public class IntentUtil {
             intent.putExtras(data);
         }
         activity.startActivity(intent);
+        enterLeftRight(activity);
     }
 
     public static void openUrlWithBrowser(Activity act,String url){
@@ -91,6 +92,22 @@ public class IntentUtil {
                 R.anim.fade_left_to_middle,
                 R.anim.fade_middle_to_right);
     }
+
+
+    public static void enterOutIn(Activity activity) {
+        activity.overridePendingTransition(
+                R.anim.fade_alpha_half_one,
+                R.anim.fade_alpha_one_half);
+    }
+
+
+    public static void exitOutIn(Activity activity) {
+        activity.overridePendingTransition(
+                R.anim.fade_alpha_half_one,
+                R.anim.fade_alpha_one_half);
+    }
+
+
 
     public static void enterLeftRight(Activity activity){
         activity.overridePendingTransition(

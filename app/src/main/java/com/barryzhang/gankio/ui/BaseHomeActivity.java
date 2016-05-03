@@ -45,7 +45,7 @@ public abstract class BaseHomeActivity extends BaseActivity
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setSubtitle(R.string.app_main_title);
+//        toolbar.setSubtitle(R.string.app_main_title);
         setSupportActionBar(toolbar);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -167,4 +167,10 @@ public abstract class BaseHomeActivity extends BaseActivity
 
     //当前页面在侧边栏menu中的位置
     abstract protected int getCurrentPageMenuIndex();
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        IntentUtil.exitOutIn(this);
+    }
 }

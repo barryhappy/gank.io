@@ -89,4 +89,10 @@ public class AboutActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        IntentUtil.exitLeftRight(this);
+    }
 }
