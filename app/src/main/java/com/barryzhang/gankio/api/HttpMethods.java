@@ -70,6 +70,9 @@ public class HttpMethods {
                 .subscribe(subscriber);
     }
 
+    public HttpService getService() {
+        return service;
+    }
 
     public void getDailyGank(Subscriber<List<Object>> subscriber, final String date){
         if(TextUtils.isEmpty(date)){

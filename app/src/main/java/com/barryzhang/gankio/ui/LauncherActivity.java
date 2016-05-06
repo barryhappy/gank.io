@@ -11,6 +11,7 @@ import com.barryzhang.gankio.api.HttpService;
 import com.barryzhang.gankio.dao.DatabaseMethods;
 import com.barryzhang.gankio.entities.HistoryEntity;
 import com.barryzhang.gankio.utils.D;
+import com.barryzhang.gankio.utils.IntentUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
@@ -28,6 +29,7 @@ import com.orm.SugarRecord;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class LauncherActivity extends BaseActivity {
 
@@ -118,7 +120,7 @@ public class LauncherActivity extends BaseActivity {
 
 
     private void loadThree() {
-        HttpMethods.getInstance().getHistory(new Subscriber<HistoryEntity>() {
+        Subscriber<Object> subscriber = new Subscriber<Object>() {
             @Override
             public void onCompleted() {
                 D.d("");
@@ -130,17 +132,34 @@ public class LauncherActivity extends BaseActivity {
             }
 
             @Override
-            public void onNext(HistoryEntity historyEntity) {
-                if(!historyEntity.isError()) {
-                    DatabaseMethods.saveHistory(historyEntity);
-                    DataProvider.save(historyEntity.getResults());
-                    Intent intent = new Intent(LauncherActivity.this, MainActivity.class);
-                    intent.putExtra("date", getLastedDate(historyEntity));
-                    startActivity(intent);
-                    finish();
+            public void onNext(Object obj) {
+                if(obj instanceof  HistoryEntity) {
+                    HistoryEntity historyEntity = (HistoryEntity) obj;
+                    if (!historyEntity.isError()) {
+                        DatabaseMethods.saveHistory(historyEntity);
+                        DataProvider.save(historyEntity.getResults());
+                        Intent intent = new Intent();
+                        intent.putExtra("date", getLastedDate(historyEntity));
+                        IntentUtil.gotoMainActivity(LauncherActivity.this, intent);
+                    }
+                }else if(obj instanceof Integer){
+                    D.toastWhileDebug("超时");
+                    Intent intent = new Intent();
+                    intent.putExtra("date", getLastedDate(null));
+                    IntentUtil.gotoMainActivity(LauncherActivity.this, intent);
                 }
+                finish();
             }
-        });
+        };
+
+        Observable<HistoryEntity> observable =
+                HttpMethods.getInstance().getService().getHistory();
+        Observable.merge(observable, Observable.timer(3, TimeUnit.SECONDS))
+                .first()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(subscriber);
     }
 
     @Override
