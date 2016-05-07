@@ -5,25 +5,20 @@ import android.os.Bundle;
 
 import com.barryzhang.gankio.R;
 import com.barryzhang.gankio.api.DataProvider;
-import com.barryzhang.gankio.api.HistoryService;
 import com.barryzhang.gankio.api.HttpMethods;
-import com.barryzhang.gankio.api.HttpService;
 import com.barryzhang.gankio.dao.DatabaseMethods;
 import com.barryzhang.gankio.entities.HistoryEntity;
+import com.barryzhang.gankio.utils.AppUtil;
 import com.barryzhang.gankio.utils.D;
 import com.barryzhang.gankio.utils.IntentUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.Bind;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import com.barryzhang.gankio.utils.FrescoImageUtils;
 import com.orm.SugarRecord;
 
 import java.text.SimpleDateFormat;
@@ -49,77 +44,26 @@ public class LauncherActivity extends BaseActivity {
 
     @Override
     protected void afterInject() {
-//        FrescoImageUtils.loadImage(imageViewLauncher,
-//                "http://m2.quanjing.com/2m/ibrm048/iblsab01238174.jpg");
     }
 
     @Override
     protected void loadData() {
+        if(!AppUtil.isNetWork(this)){
+            D.toast("没有网络");
+            // TODO 弹窗提示网络
+        }
 
         HistoryEntity historyEntity = SugarRecord.findById(HistoryEntity.class,1);
         if(historyEntity == null || historyEntity.getResults() == null){
 
-            loadThree();
+            loadHistory();
         }
 
 
     }
 
-    private void loadOne() {
-        //        Retrofit retrofit = new Retrofit.Builder()
-        //                .baseUrl("http://gank.io/api/")
-        //                .addConverterFactory(GsonConverterFactory.create())
-        //                .build();
-        //        HistoryService service = retrofit.create(HistoryService.class);
-        //        Call<HistoryEntity> call = service.getHistory();
-        //        call.enqueue(new Callback<HistoryEntity>(){
-        //
-        //            @Override
-        //            public void onResponse(Call<HistoryEntity> call, Response<HistoryEntity> response) {
-        //
-        //                if(response != null){
-        //                    response.body().getResults();
-        //                }
-        //            }
-        //
-        //            @Override
-        //            public void onFailure(Call<HistoryEntity> call, Throwable t) {
-        //
-        //            }
-        //        });
-    }
 
-    private void loadTwo() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(HttpMethods.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-        HistoryService service = retrofit.create(HistoryService.class);
-        Observable<HistoryEntity> observable = service.getRxHistory();
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<HistoryEntity>() {
-                    @Override
-                    public void onCompleted() {
-                        D.d("");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        D.d(e);
-                    }
-
-                    @Override
-                    public void onNext(HistoryEntity historyEntity) {
-                        D.d(historyEntity.isError());
-                    }
-                });
-
-    }
-
-
-    private void loadThree() {
+    private void loadHistory() {
         Subscriber<Object> subscriber = new Subscriber<Object>() {
             @Override
             public void onCompleted() {
