@@ -9,6 +9,10 @@
           android:title="取消收藏"
           android:orderInCategory="100"
           app:showAsAction="never" />
+    <item android:id="@+id/action_share"
+          android:title="分享"
+          android:orderInCategory="100"
+          app:showAsAction="never" />
     <item android:id="@+id/action_open_in_browser"
           android:title="在浏览器中打开"
           android:orderInCategory="100"

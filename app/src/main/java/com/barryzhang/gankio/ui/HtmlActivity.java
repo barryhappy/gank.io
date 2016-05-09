@@ -170,6 +170,12 @@ public class HtmlActivity extends BaseActivity {
             return true;
         } else if(id == R.id.action_favorite || id == R.id.action_unFavorite) {
            toggleFavorite();
+        } else if(id == R.id.action_share){
+            if(gank != null) {
+                IntentUtil.share(gank.getDesc()
+                        .concat(" ").concat(gank.getUrl())
+                        .concat(" by ").concat(gank.getWho()));
+            }
         }
 
         return super.onOptionsItemSelected(item);
