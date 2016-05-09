@@ -122,7 +122,8 @@ public class MainActivity extends BaseHomeActivity {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            finish();
+            System.exit(0);
         }
     }
 }
