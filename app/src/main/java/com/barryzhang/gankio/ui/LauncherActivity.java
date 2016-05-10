@@ -86,7 +86,7 @@ public class LauncherActivity extends BaseActivity {
                         intent.putExtra("date", getLastedDate(historyEntity));
                         IntentUtil.gotoMainActivity(LauncherActivity.this, intent);
                     }
-                }else if(obj instanceof Integer){
+                }else if(obj instanceof Number){
                     D.toastWhileDebug("超时");
                     Intent intent = new Intent();
                     intent.putExtra("date", getLastedDate(null));
@@ -99,10 +99,10 @@ public class LauncherActivity extends BaseActivity {
         Observable<HistoryEntity> observable =
                 HttpMethods.getInstance().getService().getHistory();
         Observable.merge(observable, Observable.timer(3, TimeUnit.SECONDS))
-                .first()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
+                .first()
                 .subscribe(subscriber);
     }
 

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -72,4 +73,11 @@ public abstract class BaseActivity extends AppCompatActivity {
             return getResources().getColor(colorID);
         }
     }
+
+
+    protected View getSnackBarView() {
+        CoordinatorLayout snackBarLayout = (CoordinatorLayout) findViewById(R.id.snackbarlocation);
+        return (snackBarLayout == null ? findViewById(android.R.id.content) : snackBarLayout);
+    }
+
 }

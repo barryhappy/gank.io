@@ -16,6 +16,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.androidadvance.topsnackbar.TSnackbar;
 import com.barryzhang.gankio.R;
 import com.barryzhang.gankio.dao.DatabaseMethods;
 import com.barryzhang.gankio.entities.FavoriteEntity;
@@ -34,6 +35,8 @@ public class HtmlActivity extends BaseActivity {
     WebView webView;
     @Bind(R.id.fab)
     FloatingActionButton fab;
+    @Bind(R.id.viewCover)
+    View viewCover;
 
     private GankItem gank;
     boolean isFavorite = false;
@@ -44,7 +47,8 @@ public class HtmlActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(gank == null){
-            // TODO 处理没有数据的情况
+            D.toast("数据错误！");
+            onBackPressed();
             return;
         }
     }
@@ -67,7 +71,36 @@ public class HtmlActivity extends BaseActivity {
         initWebVIew();
         
         refreshFavoriteState();
-        
+
+        setCoverIfVideo();
+
+    }
+
+    private void setCoverIfVideo() {
+        if("休息视频".equals(gank.getType())){
+
+            final View barView = getSnackBarView();
+            barView.post(new Runnable() {
+                @Override
+                public void run() {
+                    TSnackbar snackBar = TSnackbar.make(barView,
+                            "如需播放视频，选择『在浏览器中打开』，进行播放",
+                            TSnackbar.LENGTH_INDEFINITE)
+                            .setAction("我知道啦", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    viewCover.setVisibility(View.GONE);
+                                }
+                            })
+                            .setActionTextColor(Color.parseColor("#cccccc"));
+                    snackBar.getView().setBackgroundColor(Color.parseColor("#ff4081"));
+                    snackBar.show();
+                }
+            });
+            viewCover.setVisibility(View.VISIBLE);
+        }else{
+            viewCover.setVisibility(View.GONE);
+        }
     }
 
     private void refreshFavoriteState() {
@@ -144,6 +177,10 @@ public class HtmlActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        if(viewCover != null && viewCover.isShown()){
+            viewCover.setVisibility(View.GONE);
+            return ;
+        }
         if(webView != null && webView.canGoBack()){
             webView.goBack();
         }else {

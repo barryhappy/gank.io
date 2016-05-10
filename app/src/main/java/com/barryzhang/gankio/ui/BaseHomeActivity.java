@@ -141,8 +141,7 @@ public abstract class BaseHomeActivity extends BaseActivity
 
 
     private void showSnackMessage() {
-        CoordinatorLayout snackBarLayout = (CoordinatorLayout) findViewById(R.id.snackbarlocation);
-        View barView = (snackBarLayout == null ? findViewById(android.R.id.content) : snackBarLayout);
+        View barView = getSnackBarView();
         Snackbar.make(barView, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setCallback(new Snackbar.Callback() {
                     @Override
