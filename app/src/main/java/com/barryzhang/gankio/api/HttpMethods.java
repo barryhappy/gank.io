@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.barryzhang.gankio.entities.BeautyData;
 import com.barryzhang.gankio.entities.DailyGankEntity;
+import com.barryzhang.gankio.entities.DaysContent;
 import com.barryzhang.gankio.entities.GankItem;
 import com.barryzhang.gankio.entities.HistoryEntity;
 import com.orm.SugarRecord;
@@ -130,6 +131,35 @@ public class HttpMethods {
                             list.addAll(dailyGankEntity.getResults().get(key));
                         }
                         return list;
+                    }
+                })
+                .subscribe(subscriber);
+    }
+
+
+    public void getDaysContent(Subscriber<List<DaysContent.Content>> subscriber,
+                               final String date){
+
+        String year;
+        String month;
+        String day;
+        try{
+            String[] ss = date.split("-");
+            year = ss[0];
+            month = ss[1];
+            day = ss[2];
+        }catch (Exception e){
+            subscriber.onError(new RuntimeException("Date format Exception!"));
+            return;
+        }
+        service.getDaysContent(year,month,day)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .map(new Func1<DaysContent, List<DaysContent.Content>>() {
+                    @Override
+                    public List<DaysContent.Content> call(DaysContent daysContent) {
+                        return daysContent.getResults();
                     }
                 })
                 .subscribe(subscriber);

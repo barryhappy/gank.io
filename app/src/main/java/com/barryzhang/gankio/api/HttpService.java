@@ -1,6 +1,7 @@
 package com.barryzhang.gankio.api;
 
 import com.barryzhang.gankio.entities.DailyGankEntity;
+import com.barryzhang.gankio.entities.DaysContent;
 import com.barryzhang.gankio.entities.HistoryEntity;
 
 import retrofit2.http.GET;
@@ -18,6 +19,17 @@ public interface HttpService {
 
     @GET("day/{year}/{month}/{day}")
     Observable<DailyGankEntity> getDailyGank(
-            @Path("year")String year, @Path("month") String month, @Path("day") String day);
+            @Path("year")String year,
+            @Path("month") String month,
+            @Path("day") String day
+    );
+
+    @GET("history/content/day/{year}/{month}/{day}")
+    Observable<DaysContent> getDaysContent(
+            @Path("year")String year,
+            @Path("month") String month,
+            @Path("day") String day
+    );
+
 
 }
