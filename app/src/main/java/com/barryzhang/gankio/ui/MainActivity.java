@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import com.barryzhang.gankio.R;
 import com.barryzhang.gankio.adapter.DailyGankAdapter;
 import com.barryzhang.gankio.api.HttpMethods;
+import com.barryzhang.gankio.entities.DaysContent;
 import com.barryzhang.gankio.entities.GankItem;
 import com.barryzhang.gankio.utils.D;
 import com.barryzhang.gankio.utils.IntentUtil;
@@ -112,6 +114,35 @@ public class MainActivity extends BaseHomeActivity {
             @Override
             public void onNext(List<Object> list) {
                 adapterMain.addAndNotify(list);
+            }
+        }, date);
+
+
+        HttpMethods.getInstance().getDaysContent(new Subscriber<DaysContent.Content>() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgressBar();
+            }
+
+            @Override
+            public void onCompleted() {
+                hideProgressBar();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                D.d(e.getMessage());
+                hideProgressBar();
+            }
+
+            @Override
+            public void onNext(DaysContent.Content content) {
+                if(content != null){
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                    toolbar.setSubtitle(content.getTitle());
+                }
             }
         }, date);
     }

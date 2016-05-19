@@ -79,18 +79,7 @@ public class HttpMethods {
         if(TextUtils.isEmpty(date)){
             subscriber.onError(new RuntimeException("Date format Exception!"));
         }
-        String year;
-        String month;
-        String day;
-        try{
-            String[] ss = date.split("-");
-            year = ss[0];
-            month = ss[1];
-            day = ss[2];
-        }catch (Exception e){
-            subscriber.onError(new RuntimeException("Date format Exception!"));
-            return;
-        }
+        ///////----- 测试代码 start ---
         BeautyData data = SugarRecord.findById(BeautyData.class, 1);
         Iterator<BeautyData> data2 = SugarRecord.findAll(BeautyData.class);
         while (data2.hasNext()){
@@ -103,6 +92,19 @@ public class HttpMethods {
         if(iiii != null) {
             BeautyData beautyData = BeautyData.create(date, iiii);
             SugarRecord.save(beautyData);
+        }
+        ///////----- 测试代码 end ---
+        String year;
+        String month;
+        String day;
+        try{
+            String[] ss = date.split("-");
+            year = ss[0];
+            month = ss[1];
+            day = ss[2];
+        }catch (Exception e){
+            subscriber.onError(new RuntimeException("Date format Exception!"));
+            return;
         }
         service.getDailyGank(year,month,day)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -137,7 +139,7 @@ public class HttpMethods {
     }
 
 
-    public void getDaysContent(Subscriber<List<DaysContent.Content>> subscriber,
+    public void getDaysContent(Subscriber<DaysContent.Content> subscriber,
                                final String date){
 
         String year;
@@ -160,6 +162,15 @@ public class HttpMethods {
                     @Override
                     public List<DaysContent.Content> call(DaysContent daysContent) {
                         return daysContent.getResults();
+                    }
+                })
+                .map(new Func1<List<DaysContent.Content>, DaysContent.Content>() {
+                    @Override
+                    public DaysContent.Content call(List<DaysContent.Content> contents) {
+                        if(contents != null && contents.size() > 0){
+                            return contents.get(0);
+                        }
+                        return null;
                     }
                 })
                 .subscribe(subscriber);
