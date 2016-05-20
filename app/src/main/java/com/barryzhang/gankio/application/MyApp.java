@@ -1,4 +1,4 @@
-package com.barryzhang.gankio.appliction;
+package com.barryzhang.gankio.application;
 
 import android.content.Context;
 

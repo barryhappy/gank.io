@@ -8,7 +8,7 @@ import android.net.Uri;
 import android.os.Parcelable;
 
 import com.barryzhang.gankio.R;
-import com.barryzhang.gankio.appliction.MyApp;
+import com.barryzhang.gankio.application.MyApp;
 import com.barryzhang.gankio.ui.AboutActivity;
 import com.barryzhang.gankio.ui.FavoriteActivity;
 import com.barryzhang.gankio.ui.HistoryActivity;

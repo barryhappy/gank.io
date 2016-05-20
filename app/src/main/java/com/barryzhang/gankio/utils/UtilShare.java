@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
-import com.barryzhang.gankio.appliction.MyApp;
+import com.barryzhang.gankio.application.MyApp;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
