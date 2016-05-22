@@ -31,6 +31,9 @@ public class MainActivity extends BaseHomeActivity {
     @Bind(R.id.listViewMain)
     ListView listViewMain;
 
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +55,7 @@ public class MainActivity extends BaseHomeActivity {
         adapterMain = new DailyGankAdapter(this);
         listViewMain.setAdapter(adapterMain);
         setTitle(date);
-
+        toolbar.setSubtitle("");
     }
 
     @Override
@@ -76,6 +79,7 @@ public class MainActivity extends BaseHomeActivity {
             adapterMain.clearAndNotify();
         }
         setTitle(date);
+        toolbar.setSubtitle("");
         loadData();
     }
 
@@ -140,7 +144,6 @@ public class MainActivity extends BaseHomeActivity {
             @Override
             public void onNext(DaysContent.Content content) {
                 if(content != null){
-                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                     toolbar.setSubtitle(content.getTitle());
                 }
             }
