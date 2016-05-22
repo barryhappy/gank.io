@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.barryzhang.gankio.appliction.MyApp;
+import com.barryzhang.gankio.application.MyApp;
 
 public class D {
 	private static String TAG = "test";
