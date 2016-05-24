@@ -2,9 +2,11 @@ package com.barryzhang.gankio.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -17,7 +19,11 @@ import com.barryzhang.gankio.entities.GankItem;
 import com.barryzhang.gankio.utils.D;
 import com.barryzhang.gankio.utils.IntentUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.OnItemClick;
@@ -47,6 +53,9 @@ public class MainActivity extends BaseHomeActivity {
     @Override
     protected void getIntentExtraData(Intent intent) {
         date = intent .getStringExtra("date");
+        if(date == null){
+            date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+        }
     }
 
 
@@ -127,7 +136,6 @@ public class MainActivity extends BaseHomeActivity {
             @Override
             public void onStart() {
                 super.onStart();
-                showProgressBar();
             }
 
             @Override
@@ -138,7 +146,6 @@ public class MainActivity extends BaseHomeActivity {
             @Override
             public void onError(Throwable e) {
                 D.d(e.getMessage());
-                hideProgressBar();
             }
 
             @Override
